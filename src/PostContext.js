@@ -11,7 +11,7 @@ function createRandomPost() {
 // 1. CREATE A NEW CONTEXT: Always at the top level of the App.
 const PostContext = createContext();
 
-function PostProvider() {
+function PostProvider({ children }) {
   const [posts, setPosts] = useState(() =>
     Array.from({ length: 30 }, () => createRandomPost())
   );
@@ -35,13 +35,19 @@ function PostProvider() {
   }
 
   // 2. PROVIDE VALUE TO CHILD COMPONENTS
-  <PostContext.Provider
-    value={{
-      posts: searchedPosts,
-      onClearPosts: handleClearPosts,
-      onAddPost: handleAddPost,
-      searchQuery,
-      setSearchQuery,
-    }}
-  ></PostContext.Provider>;
+  return (
+    <PostContext.Provider
+      value={{
+        posts: searchedPosts,
+        onClearPosts: handleClearPosts,
+        onAddPost: handleAddPost,
+        searchQuery,
+        setSearchQuery,
+      }}
+    >
+      {children}
+    </PostContext.Provider>
+  );
 }
+
+export { PostContext, PostProvider };
